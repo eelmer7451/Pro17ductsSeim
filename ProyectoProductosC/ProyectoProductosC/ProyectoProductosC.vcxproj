@@ -116,12 +116,14 @@
     <ClCompile Include="Consola.c" />
     <ClCompile Include="Main.c" />
     <ClCompile Include="Menu.c" />
+    <ClCompile Include="Pedidos.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Articulos.h" />
     <ClInclude Include="Clientes.h" />
     <ClInclude Include="Consola.h" />
     <ClInclude Include="Menu.h" />
+    <ClInclude Include="Pedidos.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
