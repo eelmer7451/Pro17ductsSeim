@@ -152,7 +152,7 @@ void fModificarCliente()
 		printf("%s", reg.municipio);
 		GoToXY(18, 7);
 		printf("%s", reg.nif);
-		elecMod = fMenuModificarCliente();
+		elecMod = fMenu("\n\n¿Que dato quieres modificar?\n\t0.-Nada\n\t1.-Nombre\n\t2.-Domicilio\n\t3.- Codigo Postal\n\t4.- Municipio\n\t5.-N.I.F.\n\t\tEleccion: ",0,5);
 		while (elecMod != 0) {
 			switch (elecMod) {
 			case 1:
@@ -177,7 +177,7 @@ void fModificarCliente()
 				break;
 			}
 			GoToXY(0, 7);
-			elecMod = fMenuModificarCliente();
+			elecMod = fMenu("\n\n¿Que dato quieres modificar?\n\t0.-Nada\n\t1.-Nombre\n\t2.-Domicilio\n\t3.- Codigo Postal\n\t4.- Municipio\n\t5.-N.I.F.\n\t\tEleccion: ", 0, 5);
 		}
 		fseek(pf, (nCliente - 1) * sizeof(reg), SEEK_SET);
 		fwrite(&reg, sizeof(reg), 1, pf);

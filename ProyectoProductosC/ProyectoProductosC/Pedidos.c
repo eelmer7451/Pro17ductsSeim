@@ -47,7 +47,7 @@ void fAgregarPedido()
 		fseek(cpf, (nCliente - 1) * sizeof(regCliente), SEEK_SET);
 		fread(&regCliente, sizeof(regCliente), 1, cpf);
 		regPedido.nCliente = regCliente.nCliente;
-		goToXY(18, 2);
+		GoToXY(18, 2);
 		printf("%s", regCliente.nombre);
 		nArticulo = fPedirArticulo(apf,numLineas);
 		while (nArticulo != 0)
@@ -57,17 +57,21 @@ void fAgregarPedido()
 			regPedido.nArticulo = regArticulo.nArticulo;
 			regPedido.pvp = regArticulo.pvp;
 			GoToXY(0, numLineas + 5);
-			printf("%12s  %20s  %10s  ", regArticulo.nArticulo, regArticulo.denominacion, regArticulo.pvp);
+			printf("%12d  %20s  %8.2f  ", regArticulo.nArticulo, regArticulo.denominacion, regArticulo.pvp);
 			GoToXY(2, numLineas + 7);
 			printf("Introduce la cantidad.");
 			GoToXY(47, numLineas + 5);
 			scanf("%d%c", &regPedido.cantidad, &c);
+			GoToXY(2, numLineas + 7);
+			printf("%100s", "");
 			GoToXY(2, numLineas + 7);
 			printf("¿Estas conforme? ");
 			c = tolower(getch());
 			if (c == 's')
 			{
 				fwrite(&regPedido, sizeof(regPedido), 1, ppf);
+				GoToXY(2, numLineas + 7);
+				printf("%100s", "");
 				numLineas++;
 				GoToXY(2, numLineas + 7);
 				printf("La linea guardada correctamente");
