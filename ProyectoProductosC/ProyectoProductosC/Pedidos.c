@@ -129,3 +129,15 @@ int fPedirArticulo(FILE * pf,int linea)
 	} while (opc<0 || opc>fCalcularTamanoFicheroArticulos(pf));
 	return opc;
 }
+
+int fCalcularTamanoFicheroPedidos(FILE * pf)
+{
+	int tamArchivo, tamFinal, tamInicio;
+	PEDIDO reg;
+	fseek(pf, 0, SEEK_END);
+	tamFinal = ftell(pf);
+	fseek(pf, 0, SEEK_SET);
+	tamInicio = ftell(pf);
+	tamArchivo = (tamFinal - tamInicio) / sizeof(reg);
+	return tamArchivo;
+}

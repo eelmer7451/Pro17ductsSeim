@@ -114,6 +114,7 @@
     <ClCompile Include="Articulos.c" />
     <ClCompile Include="Clientes.c" />
     <ClCompile Include="Consola.c" />
+    <ClCompile Include="Facturacion.c" />
     <ClCompile Include="Main.c" />
     <ClCompile Include="Menu.c" />
     <ClCompile Include="Pedidos.c" />
@@ -122,6 +123,7 @@
     <ClInclude Include="Articulos.h" />
     <ClInclude Include="Clientes.h" />
     <ClInclude Include="Consola.h" />
+    <ClInclude Include="Facturacion.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Pedidos.h" />
   </ItemGroup>

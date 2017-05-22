@@ -19,3 +19,4 @@ void fFormularioPedido();
 void fAgregarPedido();
 int fPedirCliente(FILE *pf,int linea);
 int fPedirArticulo(FILE *pf,int linea);
+int fCalcularTamanoFicheroPedidos(FILE * pf);

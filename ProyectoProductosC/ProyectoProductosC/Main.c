@@ -4,6 +4,7 @@
 #include "Articulos.h"
 #include "Clientes.h"
 #include "Pedidos.h"
+#include "Facturacion.h"
 
 void main()
 {
@@ -40,6 +41,7 @@ void main()
 			fAgregarPedido();
 			break;
 		case 4:
+			fAgregarFactura();
 			break;
 		}
 		opc = fMenu("\t\tMENU DE FACTURACION\n\n1.-Clientes\n2.-Articulos\n3.-Pedidos\n4.-Facturacion\n5.-Salir\nEleccion: ", 1, 5);
