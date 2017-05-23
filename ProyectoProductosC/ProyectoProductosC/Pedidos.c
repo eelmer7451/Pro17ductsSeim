@@ -141,3 +141,19 @@ int fCalcularTamanoFicheroPedidos(FILE * pf)
 	tamArchivo = (tamFinal - tamInicio) / sizeof(reg);
 	return tamArchivo;
 }
+
+int fExisteFicheroPedidos()
+{
+	FILE *pf;
+	int i;
+	pf = fopen(RUTAPEDIDOS, "rb");
+	if (pf == NULL)
+	{
+		system("cls");
+		printf("No hay pedidos que facturar.\n");
+		getch();
+		return 0;
+	}
+	else
+		return 1;
+}

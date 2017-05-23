@@ -6,6 +6,7 @@
 
 #include <stdio.h>
 #include <time.h>
+#include <string.h>
 
 #include "Articulos.h"
 #include "Clientes.h"
@@ -25,3 +26,5 @@ void fCabeceraResumen();
 void fAgregarFactura();
 void fInformeResumen();
 int fCalcularTamanoFicheroResumen(FILE * pf);
+void fImprimirCabeceraFactura(FILE *pf,CLIENTE regCliente,PEDIDO regPedido, char *fecha, int nFactura);
+void fImprimirPiePaginaFactura(FILE *pf,float total, int Lineas);
