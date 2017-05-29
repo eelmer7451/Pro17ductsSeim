@@ -26,7 +26,7 @@ void fAgregarFactura()
 	FACTURACION regFactura;
 	PEDIDO regPedido;
 	time_t t = time(NULL);
-	char  archivoFactura[22]="",fecha[12]="";
+	char  archivoFactura[80]="",fecha[12]="",del[100]="del ";
 	struct tm tm = *localtime(&t);
 	float total=0;
 	int tamArchivoPedidos, sw=1,numLineas=0,nCliente;
@@ -187,18 +187,17 @@ void fAgregarFactura()
 	fclose(cpf);
 	fclose(apf);
 	fclose(ppf);
-	if (remove(RUTAPEDIDOS) != 0)
-		puts("Error deleting file");
-	else
-		puts("File successfully deleted");
+	strcat(del, RUTAPEDIDOS);
+	system(del);
 	getch();
 }
 
-void fInformeResumen(char* fecha,FILE *cpf)
+void fInformeResumen(char* fecha, FILE *cpf)
 {
 	FILE *pf;
 	FACTURACION regFactura;
 	CLIENTE regCliente;
+	char del[100] = "del ";
 	float totalBase = 0, totalIva = 0;
 	pf = fopen(RUTARESUMEN, "rb");
 	if (pf == NULL)
@@ -221,7 +220,9 @@ void fInformeResumen(char* fecha,FILE *cpf)
 	printf("\n\n%33sTotales: %.2f  %.2f", "", totalBase, totalIva);
 	getch();
 	fclose(pf);
-	remove(pf);
+	strcat(del, RUTARESUMEN);
+	system(del);
+	getch();
 }
 
 int fCalcularTamanoFicheroResumen(FILE * pf)

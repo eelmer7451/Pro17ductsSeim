@@ -1,7 +1,7 @@
 #pragma once
 #define _CRT_SECURE_NO_WARNINGS
 
-#define RUTAPEDIDOS "Pedidos.dat"
+#define RUTAPEDIDOS "Archivo\\Pedidos.dat"
 
 #include "Consola.h"
 #include "Clientes.h"
