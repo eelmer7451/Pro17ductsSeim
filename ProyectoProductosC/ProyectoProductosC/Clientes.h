@@ -1,7 +1,7 @@
 #pragma once
 #define _CRT_SECURE_NO_WARNINGS
 
-#define RUTAFICHEROCLIENTES "Clientes.dat"
+#define RUTAFICHEROCLIENTES "Archivo\\Clientes.dat"
 
 #include <stdio.h>
 

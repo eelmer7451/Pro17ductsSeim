@@ -10,12 +10,11 @@ void fCabeceraFactura()
 	printf("%12s  %23s  %10s  %10s  %10s\n%50s", "Nº Articulo", "Denominacion", "P.V.P.", "Cantidad", "Importe","");
 }
 
-void fCabeceraResumen()
+void fCabeceraResumen(char* fecha)
 {
 	system("cls");
-	printf("\t\tLISTADO RESUMEN DE FACTURACION DEL ");
-	printf("%15s  %10s  %10s  %15s  %10s\n\n\n\n\n\n","","","","","");
-	printf("%29sTOTALES","");
+	printf("\t\tLISTADO RESUMEN DE FACTURACION DEL %s\n\n",fecha);
+	printf("%15s  %10s  %10s  %15s  %10s\n\n\n\n\n\n","Nº Factura","Cliente","N.I.F.","Base Imponible","IVA");
 }
 
 void fAgregarFactura()
@@ -70,7 +69,6 @@ void fAgregarFactura()
 		return;
 	}
 	regFactura.nFactura = fCalcularTamanoFicheroResumen(rpf);
-	tamArchivoPedidos = fCalcularTamanoFicheroPedidos(ppf);
 	fread(&regPedido, sizeof(regPedido), 1, ppf);
 	fCabeceraFactura();
 	nCliente = regPedido.nCliente;
@@ -81,7 +79,8 @@ void fAgregarFactura()
 		{
 			fseek(cpf, nCliente * sizeof(regCliente), SEEK_SET);
 			fread(&regCliente, sizeof(regCliente), 1, cpf);
-			strcpy(archivoFactura, regCliente.nif);
+			strcpy(archivoFactura, "Facturas\\");
+			strcat(archivoFactura, regCliente.nif);
 			strcat(archivoFactura, "_");
 			strcat(archivoFactura, fecha);
 			strcat(archivoFactura, ".dat");
@@ -153,6 +152,7 @@ void fAgregarFactura()
 			numLineas = 0;
 			total = 0;
 			sw = 0;
+			regFactura.nFactura = fCalcularTamanoFicheroResumen(rpf);
 			system("cls");
 			fCabeceraFactura();
 			fclose(fpf);
@@ -181,12 +181,47 @@ void fAgregarFactura()
 	printf("TOTAL:       %.2f\n", total);
 	fImprimirPiePaginaFactura(fpf, total,numLineas);
 	getch();
+	fclose(rpf);
+	fclose(fpf);
+	fInformeResumen(fecha,cpf);
 	fclose(cpf);
 	fclose(apf);
 	fclose(ppf);
-	fclose(rpf);
-	fclose(fpf);
-	remove(RUTAPEDIDOS);		
+	if (remove(RUTAPEDIDOS) != 0)
+		puts("Error deleting file");
+	else
+		puts("File successfully deleted");
+	getch();
+}
+
+void fInformeResumen(char* fecha,FILE *cpf)
+{
+	FILE *pf;
+	FACTURACION regFactura;
+	CLIENTE regCliente;
+	float totalBase = 0, totalIva = 0;
+	pf = fopen(RUTARESUMEN, "rb");
+	if (pf == NULL)
+	{
+		printf("Error al abrir el archivo de facturacion.");
+		getch();
+		return;
+	}
+	fread(&regFactura, sizeof(regFactura), 1, pf);
+	fCabeceraResumen(fecha);
+	while (!feof(pf))
+	{
+		fseek(cpf, regFactura.nCliente * sizeof(regCliente), SEEK_SET);
+		fread(&regCliente, sizeof(regCliente), 1, cpf);
+		printf("%15d  %10s  %10s  %15.2f  %10.2f\n\n\n\n\n\n", regFactura.nFactura, regCliente.nombre, regCliente.nif, regFactura.baseImponible, regFactura.iva);
+		totalBase += regFactura.baseImponible;
+		totalIva += regFactura.iva;
+		fread(&regFactura, sizeof(regFactura), 1, pf);
+	}
+	printf("\n\n%33sTotales: %.2f  %.2f", "", totalBase, totalIva);
+	getch();
+	fclose(pf);
+	remove(pf);
 }
 
 int fCalcularTamanoFicheroResumen(FILE * pf)
@@ -210,9 +245,20 @@ void fImprimirCabeceraFactura(FILE * pf, CLIENTE regCliente, PEDIDO regPedido, c
 	fprintf(pf,"%10s  %20s  %6s  %8s  %7s\n", "Nº Articulo", "Denominacion", "P.V.P.", "Cantidad", "Importe");
 }
 
-void fImprimirPiePaginaFactura(FILE * pf, float total,int Lineas)
+void fImprimirPiePaginaFactura(FILE * pf, float total)
 {
 	fprintf(pf,"\n%33sBase Imp.:   %.2f\n","", total*0.79);
 	fprintf(pf,"%33sIVA:         %.2f\n","", total - total*0.79);
 	fprintf(pf,"%33sTOTAL:       %.2f\n","", total);
+}
+
+void fImprimirCabeceraResumen(FILE * pf, CLIENTE regCliente, FACTURACION regFactura, char * fecha, int nFactura)
+{
+	fprintf(pf,"\n\t\tLISTADO RESUMEN DE FACTURACION DEL %s\n\n", fecha);
+	fprintf(pf,"%15s  %10s  %10s  %15s  %10s\n\n\n\n\n\n", "Nº Factura", "Cliente", "N.I.F.", "Base Imponible", "IVA");
+}
+
+void fImprimirPiePaginaResumen(FILE * pf, float total)
+{
+	fprintf(pf, "\nTOTALES %.2f  %.2f\n", total*0.79, total*0.21);
 }

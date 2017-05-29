@@ -1,6 +1,6 @@
 #pragma once
 
-#define RUTAARTICULOS "Articulos.dat"
+#define RUTAARTICULOS "Archivo\\Articulos.dat"
 
 #include "Consola.h"
 #include "Menu.h"
