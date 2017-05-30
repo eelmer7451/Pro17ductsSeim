@@ -19,7 +19,6 @@ void fCabeceraResumen(char* fecha)
 
 void fAgregarFactura()
 {
-	fExisteFicheroPedidos();
 	FILE *cpf, *apf, *ppf, *rpf, *fpf;
 	CLIENTE regCliente;
 	ARTICULO regArticulo;
@@ -184,9 +183,9 @@ void fAgregarFactura()
 	fclose(rpf);
 	fclose(fpf);
 	fInformeResumen(fecha,cpf);
+	fclose(ppf);
 	fclose(cpf);
 	fclose(apf);
-	fclose(ppf);
 	strcat(del, RUTAPEDIDOS);
 	system(del);
 	getch();

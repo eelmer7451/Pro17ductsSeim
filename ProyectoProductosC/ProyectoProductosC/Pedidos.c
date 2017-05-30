@@ -155,5 +155,8 @@ int fExisteFicheroPedidos()
 		return 0;
 	}
 	else
+	{
+		fclose(pf);
 		return 1;
+	}
 }
