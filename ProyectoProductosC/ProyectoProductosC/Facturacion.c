@@ -1,6 +1,6 @@
 #include "Facturacion.h"
 
-void fCabeceraFactura()
+void fCabeceraFactura()//Funcion para imprimir en pantalla la cabecera de la factura sin datos
 {
 	system("cls");
 	printf("\n%43sNombre: \n", "");
@@ -10,14 +10,14 @@ void fCabeceraFactura()
 	printf("%12s  %23s  %10s  %10s  %10s\n%50s", "Nº Articulo", "Denominacion", "P.V.P.", "Cantidad", "Importe","");
 }
 
-void fCabeceraResumen(char* fecha)
+void fCabeceraResumen(char* fecha)//Funcion para imprimir en pantalla la cabecera del resumen sin datos
 {
 	system("cls");
 	printf("\t\tLISTADO RESUMEN DE FACTURACION DEL %s\n\n",fecha);
 	printf("%15s  %20s  %10s  %15s  %10s\n\n","Nº Factura","Cliente","N.I.F.","Base Imponible","IVA");
 }
 
-void fAgregarFactura()
+void fAgregarFactura()//Funcion para Agregar Factura, segun los pedidos que haya
 {
 	FILE *cpf, *apf, *ppf, *rpf, *fpf;
 	CLIENTE regCliente;
@@ -67,14 +67,14 @@ void fAgregarFactura()
 		fclose(ppf);
 		return;
 	}
-	regFactura.nFactura = fCalcularTamanoFicheroResumen(rpf);
+	regFactura.nFactura = fCalcularTamanoFicheroResumen(rpf);//Sacar el numero de factura
 	fread(&regPedido, sizeof(regPedido), 1, ppf);
 	fCabeceraFactura();
 	nCliente = regPedido.nCliente;
 	sw = 0;
-	while (!feof(ppf))
+	while (!feof(ppf))//Para parar al finalizar el fichero de pedidos
 	{
-		if (nCliente == regPedido.nCliente)
+		if (nCliente == regPedido.nCliente)//Para finalizar la factura cuando cambia de cliente
 		{
 			fseek(cpf, nCliente * sizeof(regCliente), SEEK_SET);
 			fread(&regCliente, sizeof(regCliente), 1, cpf);
@@ -82,7 +82,7 @@ void fAgregarFactura()
 			strcat(archivoFactura, regCliente.nif);
 			strcat(archivoFactura, "_");
 			strcat(archivoFactura, fecha);
-			strcat(archivoFactura, ".dat");
+			strcat(archivoFactura, ".dat");//Guardar la ruta donde se guardara la factura con la fecha y el nif del cliente
 			fpf = fopen(archivoFactura, "ab+");
 			if (fpf == NULL)
 			{
@@ -96,7 +96,7 @@ void fAgregarFactura()
 			}
 			if (sw == 0)
 			{
-				fImprimirCabeceraFactura(fpf, regCliente, regPedido, fecha, regFactura.nFactura);
+				fImprimirCabeceraFactura(fpf, regCliente, regPedido, fecha, regFactura.nFactura);//Imprimir en archivo la cabecera de la factura
 				sw = 1;
 			}
 			GoToXY(53, 1);
@@ -116,10 +116,10 @@ void fAgregarFactura()
 			fprintf(fpf,"%12d  %20s  %6.2f  %8d  %7.2f\n", regPedido.nArticulo, regArticulo.denominacion, regPedido.pvp, regPedido.cantidad, regPedido.cantidad*regPedido.pvp);
 			total += regPedido.cantidad*regPedido.pvp;
 			numLineas++;
-			fread(&regPedido, sizeof(regPedido), 1, ppf);
+			fread(&regPedido, sizeof(regPedido), 1, ppf);//Pedir la siguiente linea de pedido
 			fclose(fpf);
 		}
-		else
+		else//Si cambia de cliente
 		{
 			fpf = fopen(archivoFactura, "ab+");
 			if (fpf == NULL)
@@ -132,10 +132,10 @@ void fAgregarFactura()
 				fclose(rpf);
 				return;
 			}
-			regFactura.iva = total - total*0.79;
-			regFactura.baseImponible = total*0.79;
-			regFactura.nCliente = nCliente;
-			fwrite(&regFactura, sizeof(regFactura), 1, rpf);
+			regFactura.iva = total - total*0.79;//Guardar el iva del total de la factura
+			regFactura.baseImponible = total*0.79;//Guardar el base imponible del total de la factura
+			regFactura.nCliente = nCliente;//Guardar el numero cliente de la factura
+			fwrite(&regFactura, sizeof(regFactura), 1, rpf);//Escribir la estructura en el archivo
 			GoToXY(49, numLineas + 9);
 			printf("Base Imp.:   %.2f\n", total*0.79);
 			GoToXY(49, numLineas + 10);
@@ -144,9 +144,7 @@ void fAgregarFactura()
 			printf("TOTAL:       %.2f\n", total);
 			fImprimirPiePaginaFactura(fpf, total, numLineas);
 			getch();
-			fseek(ppf, sizeof(regPedido)*numLineas, SEEK_SET);
-			fread(&regPedido, sizeof(regPedido), 1, ppf);
-			nCliente = regPedido.nCliente;
+			nCliente = regPedido.nCliente;//Cambia el numero de cliente local por el del fichero para sacar el pedido
 			numLineas = 0;
 			total = 0;
 			sw = 0;
@@ -155,7 +153,7 @@ void fAgregarFactura()
 			fCabeceraFactura();
 			fclose(fpf);
 		}
-	}
+	}//al terminar el fichero sacar el pie de pagina de la ultima factura
 	fpf = fopen(archivoFactura, "ab+");
 	if (fpf == NULL)
 	{
@@ -186,7 +184,7 @@ void fAgregarFactura()
 	fclose(cpf);
 	fclose(apf);
 	strcat(del, RUTAPEDIDOS);
-	system(del);
+	system(del);//Eliminar el archivo de pedidos para no sacar otra vez los pedidos
 }
 
 void fInformeResumen(char* fecha, FILE *cpf)
@@ -204,7 +202,7 @@ void fInformeResumen(char* fecha, FILE *cpf)
 		return;
 	}
 	strcat(rutaResumen, fecha);
-	strcat(rutaResumen, ".dat");
+	strcat(rutaResumen, ".dat");//Ruta del archivo de resumen de las facturas
 	rpf = fopen(rutaResumen, "wb");
 	if (rpf == NULL)
 	{
@@ -213,7 +211,7 @@ void fInformeResumen(char* fecha, FILE *cpf)
 		fclose(pf);
 		return;
 	}
-	fImprimirCabeceraResumen(rpf, fecha);
+	fImprimirCabeceraResumen(rpf, fecha);//Se imprime en el fichero la cabecera
 	fread(&regFactura, sizeof(regFactura), 1, pf);
 	fCabeceraResumen(fecha);
 	while (!feof(pf))
@@ -227,11 +225,11 @@ void fInformeResumen(char* fecha, FILE *cpf)
 		fread(&regFactura, sizeof(regFactura), 1, pf);
 	}
 	printf("\n\n%33sTotales: %.2f  %.2f", "", totalBase, totalIva);
-	fImprimirPiePaginaResumen(rpf, totalBase, totalIva);
+	fImprimirPiePaginaResumen(rpf, totalBase, totalIva);//Se imprime en el fichero la pie de pagina dek resumen
 	getch();
 	fclose(pf);
 	strcat(del, RUTARESUMEN);
-	system(del);
+	system(del);//Eliminar el archivo resumen para no volver ha resumir las mismas facturas
 }
 
 int fCalcularTamanoFicheroResumen(FILE * pf)
@@ -246,7 +244,7 @@ int fCalcularTamanoFicheroResumen(FILE * pf)
 	return tamArchivo;
 }
 
-void fImprimirCabeceraFactura(FILE * pf, CLIENTE regCliente, PEDIDO regPedido, char *fecha,int nFactura)
+void fImprimirCabeceraFactura(FILE * pf, CLIENTE regCliente, PEDIDO regPedido, char *fecha,int nFactura)//Imprimir en archivo la cabecera de la factura
 {
 	fprintf(pf,"\n%33sNombre: %s\n", "",regCliente.nombre);
 	fprintf(pf,"%33sDomicilio: %s\n", "",regCliente.domicilio);
@@ -255,20 +253,20 @@ void fImprimirCabeceraFactura(FILE * pf, CLIENTE regCliente, PEDIDO regPedido, c
 	fprintf(pf,"%10s  %20s  %6s  %8s  %7s\n", "Nº Articulo", "Denominacion", "P.V.P.", "Cantidad", "Importe");
 }
 
-void fImprimirPiePaginaFactura(FILE * pf, float total)
+void fImprimirPiePaginaFactura(FILE * pf, float total)//Imprimir en archivo el pie de pagina de la factura
 {
 	fprintf(pf,"\n%33sBase Imp.:   %.2f\n","", total*0.79);
 	fprintf(pf,"%33sIVA:         %.2f\n","", total - total*0.79);
 	fprintf(pf,"%33sTOTAL:       %.2f\n","", total);
 }
 
-void fImprimirCabeceraResumen(FILE * pf, char * fecha)
+void fImprimirCabeceraResumen(FILE * pf, char * fecha)//Imprimir en archivo la cabecera del resumen
 {
 	fprintf(pf,"\n\t\tLISTADO RESUMEN DE FACTURACION DEL %s\n\n", fecha);
 	fprintf(pf,"%10s  %10s  %9s  %9s  %5s\n\n", "Nº Factura", "Cliente", "N.I.F.", "Base Imp.", "IVA");
 }
 
-void fImprimirPiePaginaResumen(FILE * pf, float totalBase, float totalIva)
+void fImprimirPiePaginaResumen(FILE * pf, float totalBase, float totalIva)//Imprimir en archivo el pie de pagina del resumen
 {
 	fprintf(pf, "\n%29sTOTALES %.2f  %.2f\n","", totalBase, totalIva);
 }

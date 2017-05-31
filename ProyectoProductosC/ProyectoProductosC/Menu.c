@@ -1,6 +1,6 @@
 #include "Menu.h"
 
-int fMenu(char * mensaje, int min, int max)
+int fMenu(char * mensaje, int min, int max)//Funcion general para los Menus
 {
 	int opc;
 	char c;

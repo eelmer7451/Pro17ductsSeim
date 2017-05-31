@@ -138,7 +138,7 @@ void fModificarCliente()
 	nCliente = fPedirPosCliente(pf);
 	fseek(pf, (nCliente - 1) * sizeof(reg), SEEK_SET);
 	fread(&reg, sizeof(reg), 1, pf);
-	if (reg.estado != 0) {
+	if (reg.estado != 0) {//Imprimir en pantalla los datos del cliente
 		fFormularioCliente();
 		GoToXY(18, 2);
 		printf("%d", reg.nCliente);
@@ -152,7 +152,7 @@ void fModificarCliente()
 		printf("%s", reg.municipio);
 		GoToXY(18, 7);
 		printf("%s", reg.nif);
-		elecMod = fMenu("\n\n¿Que dato quieres modificar?\n\t0.-Nada\n\t1.-Nombre\n\t2.-Domicilio\n\t3.- Codigo Postal\n\t4.- Municipio\n\t5.-N.I.F.\n\t\tEleccion: ",0,5);
+		elecMod = fMenu("\n\n¿Que dato quieres modificar?\n\t0.-Nada\n\t1.-Nombre\n\t2.-Domicilio\n\t3.- Codigo Postal\n\t4.- Municipio\n\t5.-N.I.F.\n\t\tEleccion: ",0,5);//Menu para elegir el dato a cambiar
 		while (elecMod != 0) {
 			switch (elecMod) {
 			case 1:
@@ -190,7 +190,7 @@ void fModificarCliente()
 			elecMod = fMenu("\n\n¿Que dato quieres modificar?\n\t0.-Nada\n\t1.-Nombre\n\t2.-Domicilio\n\t3.- Codigo Postal\n\t4.- Municipio\n\t5.-N.I.F.\n\t\tEleccion: ", 0, 5);
 		}
 		fseek(pf, (nCliente - 1) * sizeof(reg), SEEK_SET);
-		fwrite(&reg, sizeof(reg), 1, pf);
+		fwrite(&reg, sizeof(reg), 1, pf);//Sobreescribir la estructura en el archivo
 		fclose(pf);
 	}
 	else {
