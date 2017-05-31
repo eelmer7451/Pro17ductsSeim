@@ -14,7 +14,7 @@ void fAgregarPedido()
 	CLIENTE regCliente;
 	ARTICULO regArticulo;
 	PEDIDO regPedido;
-	int nCliente, nArticulo,numLineas=0;
+	int nCliente, nArticulo,numLineas=0,sw=0;
 	char c;
 	cpf = fopen(RUTAFICHEROCLIENTES, "rb");
 	if (cpf == NULL)
@@ -44,6 +44,13 @@ void fAgregarPedido()
 	nCliente = fPedirCliente(cpf,numLineas);
 	while (nCliente != 0)
 	{
+		if(sw!=0)
+			if (regCliente.nCliente != nCliente)
+			{
+				system("cls");
+				fFormularioPedido();
+				numLineas = 0;
+			}
 		fseek(cpf, (nCliente - 1) * sizeof(regCliente), SEEK_SET);
 		fread(&regCliente, sizeof(regCliente), 1, cpf);
 		regPedido.nCliente = regCliente.nCliente;
@@ -88,6 +95,7 @@ void fAgregarPedido()
 			nArticulo = fPedirArticulo(apf,numLineas);
 		}
 		nCliente = fPedirCliente(cpf,numLineas);
+		sw = 1;
 	}
 	fclose(cpf);
 	fclose(apf);

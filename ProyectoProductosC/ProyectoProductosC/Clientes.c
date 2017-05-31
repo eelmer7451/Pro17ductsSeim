@@ -157,21 +157,31 @@ void fModificarCliente()
 			switch (elecMod) {
 			case 1:
 				GoToXY(18, 3);
+				printf("%30s", "");
+				GoToXY(18, 3);
 				gets(reg.nombre);
 				break;
 			case 2:
+				GoToXY(18, 4);
+				printf("%30s", "");
 				GoToXY(18, 4);
 				gets(reg.domicilio);
 				break;
 			case 3:
 				GoToXY(18, 5);
+				printf("%30s", "");
+				GoToXY(18, 5);
 				gets(reg.codigoPostal);
 				break;
 			case 4:
 				GoToXY(18, 6);
+				printf("%30s", "");
+				GoToXY(18, 6);
 				gets(reg.municipio);
 				break;
 			case 5:
+				GoToXY(18, 7);
+				printf("%30s", "");
 				GoToXY(18, 7);
 				gets(reg.nif);
 				break;

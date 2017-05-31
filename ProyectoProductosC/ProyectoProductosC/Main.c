@@ -25,6 +25,7 @@ void main()
 			while (opc != 5)
 			{
 				(*ptrMenuClientes[opc - 1])();
+				system("cls");
 				opc = fMenu("\t\tMENU DE CLIENTES\n\n1.-Altas\n2.-Bajas\n3.-Modificar\n4.-Consultar\n5.-Salir\nEleccion: ", 1, 5);
 			}
 			break;
@@ -34,16 +35,20 @@ void main()
 			while (opc != 5)
 			{
 				(*ptrMenuArticulos[opc - 1])();
+				system("cls");
 				opc = fMenu("\t\tMENU DE ARTICULOS\n\n1.-Altas\n2.-Bajas\n3.-Modificar\n4.-Consultar\n5.-Salir\nEleccion: ", 1, 5);
 			}
 			break;
 		case 3:
+			system("cls");
 			fAgregarPedido();
 			break;
 		case 4:
+			system("cls");
 			fAgregarFactura();
 			break;
 		}
+		system("cls");
 		opc = fMenu("\t\tMENU DE FACTURACION\n\n1.-Clientes\n2.-Articulos\n3.-Pedidos\n4.-Facturacion\n5.-Salir\nEleccion: ", 1, 5);
 	}
 }

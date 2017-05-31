@@ -6,7 +6,7 @@ int fMenu(char * mensaje, int min, int max)
 	char c;
 	do 
 	{
-		system("cls");
+		//system("cls");
 		printf("%s", mensaje);
 		scanf("%d%c", &opc, &c);
 	} while (opc<min || opc>max);

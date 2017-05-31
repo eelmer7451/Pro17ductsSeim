@@ -135,15 +135,15 @@ void fModificarArticulo()
 	fseek(pf, (nArticulo - 1) * sizeof(reg), SEEK_SET);
 	fread(&reg, sizeof(reg), 1, pf);
 	if (reg.estado != 0) {
-		fFormularioCliente();
+		fFormularioArticulo();
 		GoToXY(19, 2);
 		printf("%d", reg.nArticulo);
 		GoToXY(19, 3);
 		printf("%s", reg.denominacion);
 		GoToXY(19, 4);
-		printf("%s", reg.precioCoste);
+		printf("%.2f", reg.precioCoste);
 		GoToXY(18, 5);
-		printf("%s", reg.pvp);
+		printf("%.2f", reg.pvp);
 		elecMod = fMenu("\n\n¿Que dato quieres modificar?\n\t0.-Nada\n\t1.-Denominacion\n\t2.-Precio Coste\n\t3.- P.V.P.\n\t\tEleccion: ",0,3);
 		while (elecMod != 0) {
 			switch (elecMod) {
@@ -188,20 +188,20 @@ void fInformeArticulo()
 	}
 	nArticulo = fPedirPosArticulo(pf);
 	fseek(pf, (nArticulo - 1) * sizeof(reg), SEEK_SET);
-	fread(&reg, 1, sizeof(reg), pf);
+	fread(&reg, sizeof(reg), 1, pf);
 	if (reg.estado == 0) {
 		printf("El articulo ha sido dado de baja.\n");
 	}
 	else {
-		fFormularioCliente();
+		fFormularioArticulo();
 		GoToXY(19, 2);
 		printf("%d", reg.nArticulo);
 		GoToXY(19, 3);
 		printf("%s", reg.denominacion);
 		GoToXY(19, 4);
-		printf("%s", reg.precioCoste);
+		printf("%.2f", reg.precioCoste);
 		GoToXY(19, 5);
-		printf("%s", reg.pvp);
+		printf("%.2f", reg.pvp);
 		getch();
 	}
 	fclose(pf);
